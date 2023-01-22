@@ -1,14 +1,19 @@
 import { ChangeEvent, FormEvent, useState, VFC } from 'react'
-import { todoVar } from '../cache'
+import { todoVar, todoNemui } from '../cache'
 import { useReactiveVar } from '@apollo/client'
 import Link from 'next/link'
 
 export const LocalStateA: VFC = () => {
   const [input, setInput] = useState('')
+  // makeVarのstateを呼び出す
   const todos = useReactiveVar(todoVar)
+  const todo1 = useReactiveVar(todoNemui)
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    // makeVarの値を追加する
     todoVar([...todoVar(), { title: input }])
+    todoNemui([...todoNemui(), { title: input + '111' }])
+    // formの値を初期化
     setInput('')
   }
 
