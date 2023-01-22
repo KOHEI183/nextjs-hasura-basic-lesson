@@ -4,6 +4,8 @@ import { ApolloProvider } from '@apollo/client'
 import { initializeApollo } from '../lib/apolloClient'
 
 function MyApp({ Component, pageProps }: AppProps) {
+  // Apolloのinitializeをする
+  // provideして全体で使えるようにする
   const client = initializeApollo()
   return (
     <ApolloProvider client={client}>
