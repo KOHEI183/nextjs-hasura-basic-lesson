@@ -14,10 +14,10 @@ const FetchMain: VFC = () => {
   // __typenameとidでキャシュに存在しているか見に行くメカニズムになっている
   const { data, error } = useQuery<GetUsersQuery>(GET_USERS, {
     // cacheのoption デフォルトだとfetchPolicy: 'cache-first',
-    //fetchPolicy: 'network-only',
-    fetchPolicy: 'cache-and-network', // 毎回GQLのサーバーを見に行ってくれる
-    //fetchPolicy: 'cache-first',　// cacheがあれば常にcacheを参照する
-    //fetchPolicy: 'no-cache',
+    //fetchPolicy: 'network-only',　// 常にGQLサーバーに見に行く。常にcacheに保存する　通信が完了した段階で画面に表示される
+    fetchPolicy: 'cache-and-network', // 常にGQLサーバーに見に行く。取得している間は前のcacheを表示して取得完了時上書きをする
+    //fetchPolicy: 'cache-first',　// 最初の処理はGQLサーバーに見に行く。２回目以降cacheがあれば常にcacheを参照する。dataが頻繁に変わるようなserviceであれば向かない。
+    //fetchPolicy: 'no-cache',　// 常にGQLサーバーに見に行く。cacheに入れない　@Clientで見ても参照できない
   })
 
   // const { data, error } = useQuery<GetUsersQuery>(
