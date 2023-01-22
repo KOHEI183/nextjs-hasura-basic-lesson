@@ -21,12 +21,32 @@ const HasuraCRUD: VFC = () => {
     fetchPolicy: 'cache-and-network',
   })
   const [update_users_by_pk] = useMutation<UpdateUserMutation>(UPDATE_USER)
+  /**
+   * createとdeleteはcacheが更新されないので自分で更新処理を記載する
+   * updateはcacheが更新される
+   */
   const [insert_users_one] = useMutation<CreateUserMutation>(CREATE_USER, {
+    // insert_users_oneにはretrunが入る
     update(cache, { data: { insert_users_one } }) {
+      /**
+       * identify
+       * typenameとidを組みわせたkeyがcacheIdに入る
+       */
       const cacheId = cache.identify(insert_users_one)
+      /**
+       * cache.modify
+       * 更新したいフィールドを指定
+       */
       cache.modify({
         fields: {
           users(existingUsers, { toReference }) {
+            /**
+             * toReference
+             * idに紐付いたデータをcacheを取得できる
+             *
+             * existingUsers
+             * 既存のcache data
+             */
             return [toReference(cacheId), ...existingUsers]
           },
         },
@@ -35,9 +55,19 @@ const HasuraCRUD: VFC = () => {
   })
   const [delete_users_by_pk] = useMutation<DeleteUserMutation>(DELETE_USER, {
     update(cache, { data: { delete_users_by_pk } }) {
+      /**
+       * cache.modify
+       * 更新したいフィールドを指定
+       */
       cache.modify({
         fields: {
           users(existingUsers, { readField }) {
+            /**
+             * 削除したuserIdをもとにfilterで消し去り更新をする
+             *
+             * readField('id', user)
+             * cacheからidを見る
+             */
             return existingUsers.filter(
               (user) => delete_users_by_pk.id !== readField('id', user)
             )
