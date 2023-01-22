@@ -24,6 +24,9 @@ export const useCreateForm = () => {
   const usernameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value)
   }, [])
+
+  // Childをmemo化してもprintMsgがmemo化されていないため毎回呼ばれる
+  // 何も変更がない場合はuseCallbackで再度呼ばれないようにする
   const printMsg = useCallback(() => {
     console.log('Hello')
   }, [])
