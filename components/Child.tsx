@@ -5,6 +5,7 @@ interface Props {
   handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>
 }
 
+// handleSubmitが未使用でもpropsで呼ばれているためuseCallBackしないと画面が描画される
 export const Child: VFC<Props> = memo(({ printMsg, handleSubmit }) => {
   return (
     <>
