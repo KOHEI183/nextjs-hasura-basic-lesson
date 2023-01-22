@@ -1,3 +1,6 @@
+/**
+ * Queryを叩いてGQLサーバーからdataを取得する
+ */
 import { VFC } from 'react'
 import Link from 'next/link'
 import { useQuery } from '@apollo/client'
@@ -10,9 +13,10 @@ const FetchMain: VFC = () => {
   // useQueryを叩いた段階でcacheに保存される
   // __typenameとidでキャシュに存在しているか見に行くメカニズムになっている
   const { data, error } = useQuery<GetUsersQuery>(GET_USERS, {
+    // cacheのoption デフォルトだとfetchPolicy: 'cache-first',
     //fetchPolicy: 'network-only',
-    fetchPolicy: 'cache-and-network',
-    //fetchPolicy: 'cache-first',
+    fetchPolicy: 'cache-and-network', // 毎回GQLのサーバーを見に行ってくれる
+    //fetchPolicy: 'cache-first',　// cacheがあれば常にcacheを参照する
     //fetchPolicy: 'no-cache',
   })
 

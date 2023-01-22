@@ -1,3 +1,7 @@
+/**
+ * @clientを叩いてcacheからdataを取得する
+ * GQLサーバーからdataを取得していないためcacheがなにも表示されていないとnullになる
+ */
 import { VFC } from 'react'
 import Link from 'next/link'
 import { useQuery } from '@apollo/client'
