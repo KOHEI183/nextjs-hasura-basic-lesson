@@ -30,6 +30,7 @@ const HasuraSSG: VFC<Props> = ({ users }) => {
 export default HasuraSSG
 
 export const getStaticProps: GetStaticProps = async () => {
+  // サーバーサイドでapolloClientを生成する
   const apolloClient = initializeApollo()
   const { data } = await apolloClient.query<GetUsersQuery>({
     query: GET_USERS,

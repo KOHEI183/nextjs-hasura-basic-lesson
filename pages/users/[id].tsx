@@ -17,6 +17,8 @@ interface Props {
 }
 
 const UserDetail: VFC<Props> = ({ user }) => {
+  console.log(user, 'user')
+
   if (!user) {
     return <Layout title="loading">Loading...</Layout>
   }
@@ -44,30 +46,40 @@ const UserDetail: VFC<Props> = ({ user }) => {
 export default UserDetail
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  // 画面遷移をしてもう一度user情報を取得しないといけないためssで記載
   const apolloClient = initializeApollo()
+  // user情報をすべて取る
   const { data } = await apolloClient.query<GetUserIdsQuery>({
     query: GET_USERIDS,
   })
+  console.log(data, 'data')
+
   const paths = data.users.map((user) => ({
     params: {
       id: user.id,
     },
   }))
+  console.log(paths, 'userlist全嫌悪path')
   return {
     paths,
-    fallback: true,
+    fallback: true, // 動的に個別ページを増やすことができる
+    // user list分のページを生成
   }
 }
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+  console.log(params, 'パラメーターのdata')
   const apolloClient = initializeApollo()
+  // useridをもとに
   const { data } = await apolloClient.query<GetUserByIdQuery>({
     query: GET_USERBY_ID,
+    // paramsidで検索をかけてcomponentにdataをわたす
     variables: { id: params.id },
   })
+  // UserDetailにpropsする
   return {
     props: {
       user: data.users_by_pk,
     },
-    revalidate: 1,
+    revalidate: 1, // isrの再ビルド間隔
   }
 }
