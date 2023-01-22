@@ -1,5 +1,7 @@
 import { gql } from '@apollo/client'
 
+// クエリーが同じだとyarn gen-typesがコケる
+// GQサーバーに見に行く
 export const GET_USERS = gql`
   query GetUsers {
     users(order_by: { created_at: desc }) {
@@ -9,6 +11,7 @@ export const GET_USERS = gql`
     }
   }
 `
+// @clienをつけるとGQのキャッシュを見に行く
 export const GET_USERS_LOCAL = gql`
   query GetUsers {
     users(order_by: { created_at: desc }) @client {
@@ -18,6 +21,7 @@ export const GET_USERS_LOCAL = gql`
     }
   }
 `
+
 export const GET_USERIDS = gql`
   query GetUserIds {
     users(order_by: { created_at: desc }) {
@@ -52,6 +56,7 @@ export const DELETE_USER = gql`
     }
   }
 `
+// !箱の引数は必須であることを意味する
 export const UPDATE_USER = gql`
   mutation UpdateUser($id: uuid!, $name: String!) {
     update_users_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
