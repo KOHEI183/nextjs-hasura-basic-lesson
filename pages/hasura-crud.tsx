@@ -1,3 +1,8 @@
+/**
+ * CRUD の方法
+ * 1.引数に値を入れて更新（update_users_by_pk、insert_users_one、delete_users_by_pk）
+ * 2.create,deleteの場合はcacheを更新
+ */
 import { VFC, useState, FormEvent } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 import {

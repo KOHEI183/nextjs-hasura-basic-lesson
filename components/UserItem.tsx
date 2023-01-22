@@ -5,18 +5,21 @@ interface Props {
   user: {
     __typename?: 'users'
   } & Pick<Users, 'id' | 'name' | 'created_at'>
-  delete_users_by_pk: DeleteUserMutationFn
+  // Pickを使いUsersから'id' | 'name' | 'created_at'のみの型を生成
+  delete_users_by_pk: DeleteUserMutationFn //import
   setEditedUser: Dispatch<
     SetStateAction<{
       id: string
       name: string
     }>
   >
+  // useStateの更新型
 }
 
+// editedUserが更新されるたびにdataのリスト分だけ更新されるためmemo化する
 export const UserItem: VFC<Props> = memo(
   ({ user, delete_users_by_pk, setEditedUser }) => {
-    //console.log('UserItem rendered')
+    console.log('UserItem rendered')
     return (
       <div className="my-1">
         <span className="mr-2">{user.name}</span>
